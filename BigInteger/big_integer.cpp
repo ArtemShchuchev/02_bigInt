@@ -3,39 +3,56 @@
 
 exeptNoDigit exeptionNoDigit;
 
-void big_integer::testNumber()
+void big_integer::testNumber(std::string& str)
 {
-	if (number[0] == '-')	// проверяю наличие '-' отрицательного числа
+	bool numIsNegative(false);
+	if (str[0] == '-')	// проверяю наличие '-' отрицательного числа
 	{
-		number = number.substr(1);
+		str = str.substr(1);
 		numIsNegative = true;
 	}
-	if (number.find_first_not_of("0123456789") != std::string::npos)
+	if (str.find_first_not_of("0123456789") != std::string::npos)
 		throw exeptionNoDigit;	// это не число
 	// убираю не значащие нули
-	number = number.substr(number.find_first_not_of('0'));
+	str = str.substr(str.find_first_not_of('0'));
+	// если число отрицательное возвращаю '-'
+	if (numIsNegative) str.insert(0, "-", 1);
+}
+
+void big_integer::strToVect(std::string_view str)
+{
+	bool numIsNegative(false);
+	if (str[0] == '-')	// проверяю наличие '-' отрицательного числа
+	{
+		str = str.substr(1);
+		numIsNegative = true;
+	}
+	for (const auto& elem : str)
+	{
+		auto ch = elem;
+		number.push_back(std::stoi(&ch));
+	}
+	if (numIsNegative) number.front() *= -1;
 }
 
 big_integer::big_integer(std::string& str)
-	: number(std::move(str)), numIsNegative(false)
 {
-	testNumber();
+	testNumber(str);
+	strToVect(str);
 }
 
 big_integer::big_integer(std::string&& str)
-	: number(str), numIsNegative(false)
 {
-	testNumber();
+	testNumber(str);
+	strToVect(str);
 }
 
-big_integer::big_integer(big_integer const& other)
-	: number(other.number), numIsNegative(other.numIsNegative)
+big_integer::big_integer(big_integer const& other) : number(other.number)
 {
 }
 
 big_integer::big_integer(big_integer&& other) noexcept
-	: number(std::exchange(other.number, nullptr)),
-	numIsNegative(std::exchange(other.numIsNegative, false))
+	: number(std::exchange(other.number, number))
 {
 }
 
@@ -54,58 +71,47 @@ big_integer& big_integer::operator=(big_integer const & rhs)
 	return *this;
 }
 
-big_integer& big_integer::operator+=(big_integer const& rhs)
+big_integer& big_integer::operator+=(big_integer const& right)
 {
-	static int carry(0);				// хранит перенос от сложения
-	auto size{ number.size() };			// размер левой строки
-	auto sizerhs{ rhs.number.size() };	// размер правой строки
+	big_integer rhs(right);
+	if (number.front() < 0) number[0] *= -1;
+	if (rhs.number.front() < 0) rhs.number[0] *= -1;
 
-	while (size && sizerhs)
+
+	auto l_it = number.end();
+	auto r_it = rhs.number.end();
+
+	while (l_it > number.begin() && r_it > rhs.number.begin())
 	{
-		--size;
-		--sizerhs;
+		--l_it;
+		--r_it;
 
-		int l_num{};	// левое число
-		if (std::from_chars(number.data()+size, number.data()+size+1, l_num).ec != std::errc())
-			throw std::runtime_error("(from_chars) ошибка преобразования.");
-		int r_num{};	// правое число
-		if (std::from_chars(rhs.number.data() + sizerhs, rhs.number.data() + sizerhs + 1, r_num).ec != std::errc())
-			throw std::runtime_error("(from_chars) ошибка преобразования.");
-
-		l_num += r_num;			// складываю 2 int 
-		if (carry) ++l_num;		// если было переполнение добавляю 1 (9 + 9 = 18)
-
-		if (l_num / 10) carry = 1;
-		else carry = 0;
-
-		// помещаю в строку, найденную сумму (остаток от %10)
-		number.replace(size, 1, std::to_string(l_num % 10));
-	}
-
-	if (size)	// если левое число еще не закончилось
-	{
-		--size;
-		if (carry)		// проверяю перенос
+		*l_it += *r_it;
+		if (*l_it / 10)
 		{
-			carry = 0;
-			int l_num{};	// левое число
-			if (std::from_chars(number.data() + size, number.data() + size + 1, l_num).ec != std::errc())
-				throw std::runtime_error("(from_chars) ошибка преобразования.");
-			++l_num;
-			number.replace(size, 1, std::to_string(l_num % 10));
+			*l_it %= 10;
+			if (l_it != number.begin()) *(l_it - 1) += 1;
+			else // прав. строка больше или равна
+			{
+				number.insert(number.begin(), 1);
+				l_it = number.begin() + 1;
+			}
 		}
 	}
-	else if (sizerhs)	// если правое число еще не закончилось
+
+	if (l_it != number.begin())	// если левый итератор не в начале
 	{
-		number.insert(0, rhs.number, 0, sizerhs);
-	}
-	else				// строки были равные
-	{
-		if (carry)		// проверяю перенос
+		--l_it;
+		if (*l_it / 10)
 		{
-			carry = 0;
-			number.insert(0, "1", 1);
+			*l_it %= 10;
+			if (l_it != number.begin()) *(l_it - 1) += 1;
+			else number.insert(number.begin(), 1);
 		}
+	}
+	else if (r_it != rhs.number.begin())	// если правый итератор не в начале
+	{
+		number.insert(number.begin(), rhs.number.begin(), r_it);
 	}
 
 	return *this;
@@ -119,18 +125,20 @@ big_integer& big_integer::operator*=(big_integer const& rhs)
 
 std::string big_integer::getNum()
 {
-	if (numIsNegative) return "-" + number;
-	return number;
+	std::string str{""};
+	for (const auto& elem : number) str += std::to_string(elem);
+
+	return str;
 }
 
 size_t big_integer::getLen()
 {
-	return number.length();
+	return number.size();
 }
 
 big_integer operator+(big_integer const lhs, big_integer const rhs)
 {
 	big_integer tmp(lhs);
 	tmp += rhs;
-	return tmp.number;
+	return tmp;
 }

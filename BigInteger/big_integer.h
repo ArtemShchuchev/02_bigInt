@@ -4,6 +4,8 @@
 #include <charconv>
 #include "../SecondFunk/SecondaryFunction.h"
 
+#include <iostream>
+
 /*
 
 оператор умножения на число.
@@ -16,11 +18,10 @@ struct exeptNoDigit{};
 class big_integer
 {
 private:
-	std::string number;
-	bool numIsNegative;
-	//std::vector<int> number;
+	std::vector<int> number;
 
-	void testNumber();
+	void testNumber(std::string&);
+	void strToVect(std::string_view);
 
 public:
 	// конструктор принимает lvalue (очищает str, теперь это число типа big_integer)
