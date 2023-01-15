@@ -5,17 +5,17 @@ exeptNoDigit exeptionNoDigit;
 
 void big_integer::testNumber(std::string& str)
 {
-	if (str.empty()) return; // строка пустая
+	if (str.empty()) return; // СЃС‚СЂРѕРєР° РїСѓСЃС‚Р°СЏ
 
 	bool numIsNegative(false);
-	if (str[0] == '-')	// проверяю наличие '-' отрицательного числа
+	if (str[0] == '-')	// РїСЂРѕРІРµСЂСЏСЋ РЅР°Р»РёС‡РёРµ '-' РѕС‚СЂРёС†Р°С‚РµР»СЊРЅРѕРіРѕ С‡РёСЃР»Р°
 	{
 		str = str.substr(1);
 		numIsNegative = true;
 	}
 	if (str.find_first_not_of("0123456789") != std::string::npos)
-		throw exeptionNoDigit;	// это не число
-	// убираю не значащие нули
+		throw exeptionNoDigit;	// СЌС‚Рѕ РЅРµ С‡РёСЃР»Рѕ
+	// СѓР±РёСЂР°СЋ РЅРµ Р·РЅР°С‡Р°С‰РёРµ РЅСѓР»Рё
 	auto pos = str.find_first_not_of('0');
 	if (pos == std::string::npos)
 	{
@@ -23,7 +23,7 @@ void big_integer::testNumber(std::string& str)
 		return;
 	}
 	str = str.substr(pos);
-	// если число отрицательное возвращаю '-'
+	// РµСЃР»Рё С‡РёСЃР»Рѕ РѕС‚СЂРёС†Р°С‚РµР»СЊРЅРѕРµ РІРѕР·РІСЂР°С‰Р°СЋ '-'
 	if (numIsNegative) str.insert(0, "-", 1);
 }
 
@@ -32,12 +32,12 @@ void big_integer::strToVect(std::string_view str)
 	number.clear();
 	if (str.empty())
 	{
-		number.push_back(0);	// если строка пустая => содержит 0
+		number.push_back(0);	// РµСЃР»Рё СЃС‚СЂРѕРєР° РїСѓСЃС‚Р°СЏ => СЃРѕРґРµСЂР¶РёС‚ 0
 		return;
 	}
 
 	bool numIsNegative(false);
-	if (str[0] == '-')	// проверяю наличие '-' отрицательного числа
+	if (str[0] == '-')	// РїСЂРѕРІРµСЂСЏСЋ РЅР°Р»РёС‡РёРµ '-' РѕС‚СЂРёС†Р°С‚РµР»СЊРЅРѕРіРѕ С‡РёСЃР»Р°
 	{
 		str = str.substr(1);
 		numIsNegative = true;
@@ -133,7 +133,7 @@ big_integer& big_integer::operator+=(big_integer const& right)
 		{
 			*l_it %= 10;
 			if (l_it != number.begin()) *(l_it - 1) += 1;
-			else // прав. строка больше или равна
+			else // РїСЂР°РІ. СЃС‚СЂРѕРєР° Р±РѕР»СЊС€Рµ РёР»Рё СЂР°РІРЅР°
 			{
 				number.insert(number.begin(), 1);
 				l_it = number.begin() + 1;
@@ -141,7 +141,7 @@ big_integer& big_integer::operator+=(big_integer const& right)
 		}
 	}
 
-	if (r_it != rhs.number.begin())	// если правый итератор не в начале
+	if (r_it != rhs.number.begin())	// РµСЃР»Рё РїСЂР°РІС‹Р№ РёС‚РµСЂР°С‚РѕСЂ РЅРµ РІ РЅР°С‡Р°Р»Рµ
 	{
 		number.insert(number.begin(), rhs.number.begin(), r_it);
 	}
@@ -152,7 +152,7 @@ big_integer& big_integer::operator+=(big_integer const& right)
 
 big_integer& big_integer::operator-=(big_integer const& right)
 {
-	if (*this == right)	// объекты равны (5 - 5 = 0)
+	if (*this == right)	// РѕР±СЉРµРєС‚С‹ СЂР°РІРЅС‹ (5 - 5 = 0)
 	{
 		this->number.clear();
 		this->number.push_back(0);
@@ -186,7 +186,7 @@ big_integer& big_integer::operator-=(big_integer const& right)
 	}
 
 	int sign(1);
-	if (lhs < rhs)	// вычитаем всегда из большего меньшее
+	if (lhs < rhs)	// РІС‹С‡РёС‚Р°РµРј РІСЃРµРіРґР° РёР· Р±РѕР»СЊС€РµРіРѕ РјРµРЅСЊС€РµРµ
 	{
 		std::swap(lhs, rhs);
 		sign = -1;
@@ -196,11 +196,11 @@ big_integer& big_integer::operator-=(big_integer const& right)
 	auto l_it = lhs.number.end();
 	auto r_it = rhs.number.end();
 
-	while (l_it > lhs.number.begin())	// пока не переберу левое (>=) число
+	while (l_it > lhs.number.begin())	// РїРѕРєР° РЅРµ РїРµСЂРµР±РµСЂСѓ Р»РµРІРѕРµ (>=) С‡РёСЃР»Рѕ
 	{
 		--l_it;
 
-		if (r_it > rhs.number.begin())	// правое еще не закончилось
+		if (r_it > rhs.number.begin())	// РїСЂР°РІРѕРµ РµС‰Рµ РЅРµ Р·Р°РєРѕРЅС‡РёР»РѕСЃСЊ
 		{
 			--r_it;
 			
@@ -211,7 +211,7 @@ big_integer& big_integer::operator-=(big_integer const& right)
 			}
 			*l_it -= *r_it;
 		}
-		else							// правое число закончилось
+		else							// РїСЂР°РІРѕРµ С‡РёСЃР»Рѕ Р·Р°РєРѕРЅС‡РёР»РѕСЃСЊ
 		{
 			if (*l_it == -1)
 			{
@@ -221,7 +221,7 @@ big_integer& big_integer::operator-=(big_integer const& right)
 		}
 	}
 	
-	// убираю не значащий 0
+	// СѓР±РёСЂР°СЋ РЅРµ Р·РЅР°С‡Р°С‰РёР№ 0
 	if (lhs.number.front() == 0) lhs.number.erase(lhs.number.begin());
 	lhs.number.front() *= sign;
 	return *this = std::move(lhs);
@@ -232,16 +232,16 @@ big_integer& big_integer::operator*=(big_integer const& right)
 	big_integer rhs(right);
 	int sign(1);
 
-	// знаки
+	// Р·РЅР°РєРё
 	if (number.front() < 0)
 	{
 		number.front() *= -1;
-		sign *= -1;	// меняю знак +- -+
+		sign *= -1;	// РјРµРЅСЏСЋ Р·РЅР°Рє +- -+
 	}
 	if (rhs.number.front() < 0)
 	{
 		rhs.number.front() *= -1;
-		sign *= -1;	// меняю знак +- -+
+		sign *= -1;	// РјРµРЅСЏСЋ Р·РЅР°Рє +- -+
 	}
 
 	int count(0);
@@ -262,9 +262,9 @@ big_integer& big_integer::operator*=(big_integer const& right)
 
 		big_integer buf("");
 		buf.number.clear();
-		// заполняю буфер задом на перед 
+		// Р·Р°РїРѕР»РЅСЏСЋ Р±СѓС„РµСЂ Р·Р°РґРѕРј РЅР° РїРµСЂРµРґ 
 		for (auto it=invbuf.rbegin(); it<invbuf.rend(); ++it) buf.number.push_back(*it);
-		for (int i = count; i > 0; --i) buf.number.push_back(0);	// докидываю 0 в буфер
+		for (int i = count; i > 0; --i) buf.number.push_back(0);	// РґРѕРєРёРґС‹РІР°СЋ 0 РІ Р±СѓС„РµСЂ
 		muxDig += buf;
 		
 		++count;

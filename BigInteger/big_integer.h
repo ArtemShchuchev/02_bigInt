@@ -15,14 +15,14 @@ private:
 	void strToVect(std::string_view);
 
 public:
-	// конструктор принимает lvalue (очищает str, теперь это число типа big_integer)
+	// РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РїСЂРёРЅРёРјР°РµС‚ lvalue (РѕС‡РёС‰Р°РµС‚ str, С‚РµРїРµСЂСЊ СЌС‚Рѕ С‡РёСЃР»Рѕ С‚РёРїР° big_integer)
 	big_integer(std::string& str);
-	big_integer(std::string&& str);						// конструктор принимает rvalue
-	big_integer(big_integer const & other);				// конструктор копирования
-	big_integer(big_integer&& other) noexcept;			// конструктор перемещения
+	big_integer(std::string&& str);						// РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РїСЂРёРЅРёРјР°РµС‚ rvalue
+	big_integer(big_integer const & other);				// РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РєРѕРїРёСЂРѕРІР°РЅРёСЏ
+	big_integer(big_integer&& other) noexcept;			// РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РїРµСЂРµРјРµС‰РµРЅРёСЏ
 
-	big_integer& operator= (big_integer&&) noexcept;	// перемещающее присваивание
-	big_integer& operator= (big_integer const&);		// копирующее присваивание
+	big_integer& operator= (big_integer&&) noexcept;	// РїРµСЂРµРјРµС‰Р°СЋС‰РµРµ РїСЂРёСЃРІР°РёРІР°РЅРёРµ
+	big_integer& operator= (big_integer const&);		// РєРѕРїРёСЂСѓСЋС‰РµРµ РїСЂРёСЃРІР°РёРІР°РЅРёРµ
 	
 	big_integer& operator+= (big_integer const& rhs);
 	big_integer& operator-= (big_integer const& rhs);

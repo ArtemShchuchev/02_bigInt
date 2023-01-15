@@ -8,8 +8,8 @@ add_executable(bigInt
 
 
 # if (Visual Studio)
-# настраиваю в качестве запускаемого проекта
-# настройка на стандарт с++17
+# РЅР°СЃС‚СЂР°РёРІР°СЋ РІ РєР°С‡РµСЃС‚РІРµ Р·Р°РїСѓСЃРєР°РµРјРѕРіРѕ РїСЂРѕРµРєС‚Р°
+# РЅР°СЃС‚СЂРѕР№РєР° РЅР° СЃС‚Р°РЅРґР°СЂС‚ СЃ++17
 if(MSVC)
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT bigInt)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++17")
