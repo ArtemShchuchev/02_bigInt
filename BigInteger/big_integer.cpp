@@ -244,13 +244,12 @@ big_integer& big_integer::operator*=(big_integer const& right)
 		sign *= -1;	// мен€ю знак +- -+
 	}
 
-	std::vector<int> invbuf;
 	int count(0);
 	big_integer muxDig("0");
 
 	for (auto r_it = rhs.number.rbegin(); r_it < rhs.number.rend(); ++r_it)
 	{
-		invbuf.clear();
+		std::vector<int> invbuf;
 		int whole{0};
 
 		for (auto l_it = number.rbegin(); l_it < number.rend(); ++l_it)
