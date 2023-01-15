@@ -1,17 +1,8 @@
 #pragma once
 #include <vector>
-#include <deque>
 #include <string>
-#include <charconv>
+
 #include "../SecondFunk/SecondaryFunction.h"
-
-#include <iostream>
-
-/*
-
-оператор умножения на число.
-
-*/
 
 struct exeptNoDigit{};
 
