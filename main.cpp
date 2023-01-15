@@ -30,9 +30,8 @@ int main(int argc, char** argv)
 	try
 	{
 		auto number1 = big_integer("114575");
-		auto number2 = big_integer("-78524");
+		auto number2 = big_integer("78524");
 		auto result = number1 + number2;
-
 
 		std::cout << std::left << std::setw(7) << "number1" << " = " << std::right
 			<< std::setw(result.getLen()) << number1.getNum() << "\n";

@@ -21,7 +21,7 @@ endif()
 
 
 ### add_subdirectory(../Catch2 Catch2-build)
-#find_package(Catch2 3 REQUIRED)
+find_package(Catch2 3 REQUIRED)
 ## 		These tests need their own main
-#add_executable(test test.cpp Table.hpp)
-#target_link_libraries(test PRIVATE Catch2::Catch2)
+add_executable(test test/test.cpp BigInteger/big_integer.h BigInteger/big_integer.cpp)
+target_link_libraries(test PRIVATE Catch2::Catch2)

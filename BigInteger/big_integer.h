@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <deque>
 #include <string>
 #include <charconv>
 #include "../SecondFunk/SecondaryFunction.h"
@@ -10,7 +11,6 @@
 
 оператор умножения на число.
 
-Для реализации этого класса можно воспользоваться std::string или std::vector.
 */
 
 struct exeptNoDigit{};
@@ -32,9 +32,27 @@ public:
 
 	big_integer& operator= (big_integer&&) noexcept;	// перемещающее присваивание
 	big_integer& operator= (big_integer const&);		// копирующее присваивание
+	
 	big_integer& operator+= (big_integer const& rhs);
-	friend big_integer operator+ (big_integer const lhs, big_integer const rhs);
+	big_integer& operator-= (big_integer const& rhs);
 	big_integer& operator*= (big_integer const& rhs);
+	
+	friend big_integer operator+ (big_integer const lhs, big_integer const rhs);
+	friend big_integer operator- (big_integer const lhs, big_integer const rhs);
+	friend big_integer operator* (big_integer const lhs, big_integer const rhs);
+
+	bool operator == (const big_integer& rhs);
+	bool operator != (const big_integer& rhs);
+	bool operator < (const big_integer& rhs);
+	bool operator > (const big_integer& rhs);
+	bool operator <= (const big_integer& rhs);
+	bool operator >= (const big_integer& rhs);
+	/*
+	friend bool operator< (big_integer const& lhs, big_integer const& rhs);
+	friend bool operator> (big_integer const& lhs, big_integer const& rhs);
+	friend bool operator== (big_integer const& lhs, big_integer const& rhs);
+	friend bool operator!= (big_integer const& lhs, big_integer const& rhs);
+	*/
 	std::string getNum();
 	size_t getLen();
 };
