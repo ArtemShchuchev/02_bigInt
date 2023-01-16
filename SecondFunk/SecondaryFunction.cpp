@@ -35,7 +35,22 @@ void printHeader(const std::string& str)
 #else
 	std::system("clear");
 #endif
-	std::cout << col::br_green << str << "\n";
+	consoleCol(col::br_green);
+	std::cout << str << "\n";
 	for (auto i = 0; i < utf8_strlen(str); ++i) std::cout << "-";
-	std::cout << col::cancel << "\n\n";
+	std::cout << "\n\n";
+	consoleCol(col::cancel);
 }
+
+#ifdef _WIN32
+void consoleCol(WORD color)
+{
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
+}
+
+#else
+void consoleCol(char* color)
+{
+	std::cout << color;
+}
+#endif

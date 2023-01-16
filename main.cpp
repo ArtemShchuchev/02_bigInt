@@ -38,19 +38,23 @@ int main(int argc, char** argv)
 		std::cout << std::left << std::setw(7) << "number2" << " = " << std::right
 			<< std::setw(result.getLen()) << number2.getNum() << "\n";
 
-		std::cout << col::br_yellow << std::left << std::setw(7) << "result" << " = " << std::right
-			<< std::setw(result.getLen()) << result.getNum() << col::cancel << "\n";
+		consoleCol(col::br_yellow);
+		std::cout << std::left << std::setw(7) << "result" << " = " << std::right
+			<< std::setw(result.getLen()) << result.getNum() << "\n";
+		consoleCol(col::cancel);
 	}
 	catch (const std::exception& err)
 	{
-		std::cout << col::br_red << "\nОшибка типа: " << typeid(err).name() << "\n";
-		std::cout << err.what() << "\n" << col::cancel;
+		consoleCol(col::br_red);
+		std::cout << "\nОшибка типа: " << typeid(err).name() << "\n";
+		std::cout << err.what() << "\n";
+		consoleCol(col::cancel);
 	}
 	catch (exeptNoDigit)
 	{
-		std::cout << col::br_red
-			<< "\nОшибка! В конструктор big_integer, переданы не числовые литералы"
-			<< "\n" << col::cancel;
+		consoleCol(col::br_red);
+		std::cout << "\nОшибка! В конструктор big_integer, переданы не числовые литералы\n";
+		consoleCol(col::cancel);
 	}
 
 	return 0;
