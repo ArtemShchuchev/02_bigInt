@@ -1,8 +1,6 @@
 #include "big_integer.h"
 
 
-exeptNoDigit exeptionNoDigit;
-
 void big_integer::testNumber(std::string& str)
 {
 	if (str.empty()) return; // строка пустая
@@ -14,7 +12,7 @@ void big_integer::testNumber(std::string& str)
 		numIsNegative = true;
 	}
 	if (str.find_first_not_of("0123456789") != std::string::npos)
-		throw exeptionNoDigit;	// это не число
+		throw std::runtime_error("В конструктор big_integer, переданы не числовые литералы");
 	// убираю не значащие нули
 	auto pos = str.find_first_not_of('0');
 	if (pos == std::string::npos)

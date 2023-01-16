@@ -4,7 +4,6 @@
 
 #include "../SecondFunk/SecondaryFunction.h"
 
-struct exeptNoDigit{};
 
 class big_integer
 {

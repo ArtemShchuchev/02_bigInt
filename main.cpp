@@ -50,12 +50,6 @@ int main(int argc, char** argv)
 		std::cout << err.what() << "\n";
 		consoleCol(col::cancel);
 	}
-	catch (exeptNoDigit)
-	{
-		consoleCol(col::br_red);
-		std::cout << "\nОшибка! В конструктор big_integer, переданы не числовые литералы\n";
-		consoleCol(col::cancel);
-	}
 
 	return 0;
 }
