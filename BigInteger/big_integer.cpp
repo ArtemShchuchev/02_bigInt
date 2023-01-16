@@ -260,8 +260,9 @@ big_integer& big_integer::operator*=(big_integer const& right)
 
 		big_integer buf("");
 		buf.number.clear();
-		// заполняю буфер задом на перед 
-		for (auto it=invbuf.rbegin(); it<invbuf.rend(); ++it) buf.number.push_back(*it);
+		// заполняю буфер задом на перед
+		buf.number.assign(invbuf.rbegin(), invbuf.rend());
+		//for (auto it=invbuf.rbegin(); it<invbuf.rend(); ++it) buf.number.push_back(*it);
 		for (int i = count; i > 0; --i) buf.number.push_back(0);	// докидываю 0 в буфер
 		muxDig += buf;
 		
