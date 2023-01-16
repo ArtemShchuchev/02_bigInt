@@ -28,22 +28,22 @@ TEST_CASE("Class Big integer", "[big_integer]")
         {
             number3 = big_integer("23b");
         }
-        catch (exeptNoDigit){}
+        catch (std::runtime_error){}
         try
         {
             number3 = big_integer("c111");
         }
-        catch (exeptNoDigit) {}
+        catch (std::runtime_error) {}
         try
         {
             number3 = big_integer("111 111");
         }
-        catch (exeptNoDigit) {}
+        catch (std::runtime_error) {}
         try
         {
             number3 = big_integer("111.111");
         }
-        catch (exeptNoDigit) {}
+        catch (std::runtime_error) {}
 
         number3 = big_integer("");
         CHECK(number3.getNum() == "0");
