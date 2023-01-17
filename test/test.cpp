@@ -287,6 +287,16 @@ TEST_CASE("Class Big integer", "[big_integer]")
         CHECK((number1 * number2).getNum() == "90");
         CHECK((number1 *= number2).getNum() == "90");
     }
+    SECTION("Operators /")
+    {
+        auto number1(big_integer("12345"));
+        auto number2(big_integer("12345"));
+        CHECK((number1 / number2).getNum() == "1");
+
+        number1 = (big_integer("111"));
+        number2 = (big_integer("911"));
+        CHECK((number1 / number2).getNum() == "0");
+    }
 }
 
 int main()

@@ -285,6 +285,68 @@ big_integer& big_integer::operator*=(big_integer const& right)
 	return *this = std::move(muxDig);	// готово!
 }
 
+big_integer& big_integer::operator/=(big_integer const& _denom)
+{
+	big_integer numer(*this);
+	big_integer denom(_denom);
+	int sign(1);
+
+	// знаки
+	if (numer.number.front() < 0)			// числитель
+	{
+		numer.number.front() *= -1;
+		sign *= -1;	// меняю знак +- -+
+	}
+	if (denom.number.front() < 0)	// знаменатель
+	{
+		denom.number.front() *= -1;
+		sign *= -1;	// меняю знак +- -+
+	}
+
+	if (numer == denom)	// объекты равны (5 / 5 = (+-)1)
+	{
+		numer.number.assign(1, 1);	// теперь содержит одну единицу
+		numer.number.front() *= sign;
+		return *this = numer;
+	}
+	else if (*this < denom)	// делитель больше (1 / 5 = 0)
+	{
+		numer.number.assign(1, 0);	// теперь содержит один ноль
+		return *this = numer;
+	}
+
+	big_integer remain("");		// остаток от деления
+	remain.number.clear();
+
+	//const big_integer one("1");	// цифра "1"
+	//this->number.assign(1, 0);	// теперь содержит один ноль
+
+	auto it = numer.number.front();
+	while (remain.number.size() < denom.number.size() && it != numer.number.back())
+	{
+		remain.number.push_back(it);
+		++it;
+	}
+	if (remain < denom) remain.number.push_back(it++);
+
+	std::cout << "remain: " << remain.getNum() << "\n";
+
+
+
+
+
+	/*
+	while (numer >= denom)
+	{
+		numer -= denom;
+		*this += one;
+	}
+	*/
+
+	if (*this != big_integer("0")) this->number.front() *= sign;// вернул знак
+	return *this;				// готово!
+}
+
 bool big_integer::operator==(const big_integer& rhs)
 {
 	if (number.size() != rhs.number.size()) return false;
@@ -373,6 +435,13 @@ big_integer operator*(big_integer const lhs, big_integer const rhs)
 {
 	big_integer tmp(lhs);
 	tmp *= rhs;
+	return tmp;
+}
+
+big_integer operator/(big_integer const numer, big_integer const denom)
+{
+	big_integer tmp(numer);
+	tmp /= denom;
 	return tmp;
 }
 

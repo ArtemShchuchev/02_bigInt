@@ -1,9 +1,9 @@
 #pragma once
 #include <vector>
 #include <string>
+#include <stdexcept>
 
-#include "../SecondFunk/SecondaryFunction.h"
-
+#include <iostream>
 
 class big_integer
 {
@@ -26,10 +26,12 @@ public:
 	big_integer& operator+= (big_integer const& rhs);
 	big_integer& operator-= (big_integer const& rhs);
 	big_integer& operator*= (big_integer const& rhs);
+	big_integer& big_integer::operator/= (big_integer const& _denom);
 	
 	friend big_integer operator+ (big_integer const lhs, big_integer const rhs);
 	friend big_integer operator- (big_integer const lhs, big_integer const rhs);
 	friend big_integer operator* (big_integer const lhs, big_integer const rhs);
+	friend big_integer operator/ (big_integer const lhs, big_integer const rhs);
 
 	bool operator == (const big_integer& rhs);
 	bool operator != (const big_integer& rhs);
@@ -37,12 +39,7 @@ public:
 	bool operator > (const big_integer& rhs);
 	bool operator <= (const big_integer& rhs);
 	bool operator >= (const big_integer& rhs);
-	/*
-	friend bool operator< (big_integer const& lhs, big_integer const& rhs);
-	friend bool operator> (big_integer const& lhs, big_integer const& rhs);
-	friend bool operator== (big_integer const& lhs, big_integer const& rhs);
-	friend bool operator!= (big_integer const& lhs, big_integer const& rhs);
-	*/
+
 	std::string getNum();
 	size_t getLen();
 };
