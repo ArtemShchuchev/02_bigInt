@@ -27,6 +27,7 @@ void printHeader(const std::string& str)
 	//system("chcp UTF-8");				// настраиваем кодировку консоли
 	//system("chcp ANSI");				// настраиваем кодировку консоли
 	//system("chcp 1251");				// настраиваем кодировку консоли
+	//SetConsoleCP(CP_UTF8);
 	//SetConsoleOutputCP(CP_UTF8);
 
 	//SetConsoleTitleA("Заголовок");
