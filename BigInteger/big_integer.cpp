@@ -243,34 +243,46 @@ big_integer& big_integer::operator*=(big_integer const& right)
 	}
 
 	int count(0);
-	big_integer muxDig("0");
+	big_integer muxDig("0"); // содержит левое х правое
 
-	for (auto r_it = rhs.number.rbegin(); r_it < rhs.number.rend(); ++r_it)
+	// правое умножаю на левое
+	for (auto r_it = rhs.number.crbegin(); r_it < rhs.number.crend(); ++r_it)
 	{
-		std::vector<int> invbuf;
-		int whole{0};
+		std::vector<int> invbuf;	// промежуточный буфер хранения
+		int whole{0}; // целая часть для переноса в следующий разряд
 
-		for (auto l_it = number.rbegin(); l_it < number.rend(); ++l_it)
+		for (auto l_it = number.crbegin(); l_it < number.crend(); ++l_it)
 		{
-			int mult = *l_it * *r_it;
-			invbuf.push_back((mult + whole) % 10);
-			whole = (mult + whole) / 10;
+			// произведение 1го разряда + целая часть
+			// от предыдущего произведения пары цифр
+			int mult = (*l_it) * (*r_it) + whole;	
+			invbuf.push_back(mult % 10);	// остаток в буфер
+			// целую часть сохраняю для следующей итерации
+			whole = mult / 10;
 		}
+		// в случае переполнения, докидываю к нонец
 		if (whole) invbuf.push_back(whole);
-
-		big_integer buf("");
+		
+		// содержит левое число перемноженное на 1 разряд правого
+		big_integer buf(""); 
 		buf.number.clear();
 		// заполняю буфер задом на перед
-		buf.number.assign(invbuf.rbegin(), invbuf.rend());
+		buf.number.assign(invbuf.crbegin(), invbuf.crend());
 		//for (auto it=invbuf.rbegin(); it<invbuf.rend(); ++it) buf.number.push_back(*it);
-		for (int i = count; i > 0; --i) buf.number.push_back(0);	// докидываю 0 в буфер
-		muxDig += buf;
 		
-		++count;
+		// докидываю нулей в буфер
+		// при переможении:
+		// 1 - 
+		// 10 - 0
+		// 100 - 00 и т.д.
+		for (int i = count; i > 0; --i) buf.number.push_back(0);
+		
+		muxDig += buf;	// суммирую следующий разряд
+		++count;		// счетчик разрядов (нулей)
 	}
 
-	muxDig.number.front() *= sign;
-	return *this = std::move(muxDig);
+	muxDig.number.front() *= sign;		// вернул знак
+	return *this = std::move(muxDig);	// готово!
 }
 
 bool big_integer::operator==(const big_integer& rhs)
