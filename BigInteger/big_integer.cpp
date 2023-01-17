@@ -157,22 +157,22 @@ big_integer& big_integer::operator-=(big_integer const& right)
 		return *this;
 	}
 	
-	big_integer lhs(*this);
+	//big_integer lhs(*this);
 	big_integer rhs(right);
 
-	if (lhs.number.front() < 0 && rhs.number.front() < 0)
+	if (number.front() < 0 && rhs.number.front() < 0)
 	{
 		// -2 - -3 = 3 - 2 = 1
 		// -3 - -2 = 2 - 3 = -1
-		lhs.number.front() *= -1;
+		number.front() *= -1;
 		rhs.number.front() *= -1;
-		std::swap(lhs, rhs);
+		std::swap(*this, rhs);
 	}
-	else if (lhs.number.front() < 0)
+	else if (number.front() < 0)
 	{
 		// -2 - 3 = 2 + 3 = (-)5
-		lhs.number.front() *= -1;
-		*this = (lhs + rhs);
+		number.front() *= -1;
+		*this += rhs;
 		this->number.front() *= -1;
 		return *this;
 	}
@@ -180,21 +180,21 @@ big_integer& big_integer::operator-=(big_integer const& right)
 	{
 		// 2 - -3 = 2 + 3 = 5
 		rhs.number.front() *= -1;
-		return *this = (lhs + rhs);
+		return *this += rhs;
 	}
 
 	int sign(1);
-	if (lhs < rhs)	// вычитаем всегда из большего меньшее
+	if (*this < rhs)	// вычитаем всегда из большего меньшее
 	{
-		std::swap(lhs, rhs);
+		std::swap(*this, rhs);
 		sign = -1;
 	}
 
 
-	auto l_it = lhs.number.end();
+	auto l_it = number.end();
 	auto r_it = rhs.number.end();
 
-	while (l_it > lhs.number.begin())	// пока не переберу левое (>=) число
+	while (l_it > number.begin())	// пока не переберу левое (>=) число
 	{
 		--l_it;
 
@@ -220,9 +220,9 @@ big_integer& big_integer::operator-=(big_integer const& right)
 	}
 	
 	// убираю не значащий 0
-	if (lhs.number.front() == 0) lhs.number.erase(lhs.number.begin());
-	lhs.number.front() *= sign;
-	return *this = std::move(lhs);
+	if (number.front() == 0) number.erase(number.begin());
+	number.front() *= sign;
+	return *this;
 }
 
 big_integer& big_integer::operator*=(big_integer const& right)
