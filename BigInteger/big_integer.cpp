@@ -111,7 +111,7 @@ big_integer& big_integer::operator+=(big_integer const& right)
 		// 221 + -399 = -178
 
 		rhs.number.front() *= -1;
-		return *this = (*this - rhs);
+		return *this -= rhs;
 	}
 
 
