@@ -2,10 +2,8 @@
 #include <vector>
 #include <string>
 #include <stdexcept>
-
+#include <algorithm>	// std::exchange
 #include <iostream>
-//class big_integer;
-//std::ostream& operator<< (std::ostream& out, big_integer& b_num);
 
 class big_integer
 {
