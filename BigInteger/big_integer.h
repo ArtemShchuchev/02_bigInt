@@ -4,6 +4,8 @@
 #include <stdexcept>
 
 #include <iostream>
+//class big_integer;
+//std::ostream& operator<< (std::ostream& out, big_integer& b_num);
 
 class big_integer
 {
@@ -22,6 +24,8 @@ public:
 
 	big_integer& operator= (big_integer&&) noexcept;	// перемещающее присваивание
 	big_integer& operator= (big_integer const&);		// копирующее присваивание
+
+	friend std::ostream& operator<< (std::ostream& out, big_integer b_num);
 	
 	big_integer& operator+= (big_integer const& rhs);
 	big_integer& operator-= (big_integer const& rhs);

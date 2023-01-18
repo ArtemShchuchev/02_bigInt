@@ -417,6 +417,14 @@ size_t big_integer::getLen()
 	return number.size();
 }
 
+std::ostream& operator<<(std::ostream& out, big_integer b_num)
+{
+	out << b_num.getNum();
+	//for (const auto& elem : b_num.number) out << elem;
+
+	return out;
+}
+
 big_integer operator+(big_integer const lhs, big_integer const rhs)
 {
 	big_integer tmp(lhs);

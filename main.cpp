@@ -31,16 +31,16 @@ int main(int argc, char** argv)
 	{
 		auto number1 = big_integer("114575");
 		auto number2 = big_integer("78524");
-		auto result = number1 + number2;
+		auto result = number1 * number2;
 
 		std::cout << std::left << std::setw(7) << "number1" << " = " << std::right
-			<< std::setw(result.getLen()) << number1.getNum() << "\n";
+			<< std::setw(result.getLen()) << number1 << "\n";
 		std::cout << std::left << std::setw(7) << "number2" << " = " << std::right
-			<< std::setw(result.getLen()) << number2.getNum() << "\n";
+			<< std::setw(result.getLen()) << number2 << "\n";
 
 		consoleCol(col::br_yellow);
 		std::cout << std::left << std::setw(7) << "result" << " = " << std::right
-			<< std::setw(result.getLen()) << result.getNum() << "\n";
+			<< std::setw(result.getLen()) << result << "\n";
 		consoleCol(col::cancel);
 	}
 	catch (const std::exception& err)
