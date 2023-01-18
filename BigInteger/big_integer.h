@@ -26,7 +26,7 @@ public:
 	big_integer& operator+= (big_integer const& rhs);
 	big_integer& operator-= (big_integer const& rhs);
 	big_integer& operator*= (big_integer const& rhs);
-	big_integer& big_integer::operator/= (big_integer const& _denom);
+	big_integer& operator/= (big_integer const& _denom);
 	
 	friend big_integer operator+ (big_integer const lhs, big_integer const rhs);
 	friend big_integer operator- (big_integer const lhs, big_integer const rhs);
