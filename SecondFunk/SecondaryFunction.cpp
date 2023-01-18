@@ -3,7 +3,7 @@
 // подсчет длины UTF-8
 // подсмотрел тута: 
 // https://translated.turbopages.org/proxy_u/en-ru.ru.8469f9a8-63bd626e-6376c26f-74722d776562/https/stackoverflow.com/questions/4063146/getting-the-actual-length-of-a-utf-8-encoded-stdstring).
-size_t utf8_strlen(const std::string& str)
+size_t utf8_strlen(std::string_view str)
 {
 	size_t c, i, ix, q;
 	for (q = 0, i = 0, ix = str.length(); i < ix; i++, q++)
@@ -21,7 +21,7 @@ size_t utf8_strlen(const std::string& str)
 }
 
 // заголовок
-void printHeader(const std::string& str)
+void printHeader(std::string_view str)
 {
 	setlocale(LC_ALL, "ru_RU.UTF-8");	// задаем русский текст
 	//system("chcp UTF-8");				// настраиваем кодировку консоли
@@ -50,7 +50,7 @@ void consoleCol(WORD color)
 }
 
 #else
-void consoleCol(char* color)
+void consoleCol(const char* color)
 {
 	std::cout << color;
 }

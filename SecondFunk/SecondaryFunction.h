@@ -92,10 +92,10 @@ namespace col
 	inline constexpr char* br_cyan("\033[96m");
 	inline constexpr char* br_white("\033[97m");
 }
-void consoleCol(char* color);
+void consoleCol(const char* color);
 #endif
 
 
-size_t utf8_strlen(const std::string& str);		// ох уж эти кодировки Русского и могучего!
+size_t utf8_strlen(std::string_view str);		// ох уж эти кодировки Русского и могучего!
 
-void printHeader(const std::string& str);		// заголовок
+void printHeader(std::string_view str);		// заголовок
