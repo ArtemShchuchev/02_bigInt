@@ -73,24 +73,24 @@ Bright White    97  107
 */
 namespace col
 {
-	inline constexpr char* cancel("\033[0m");
+	inline const char* cancel("\033[0m");
 
-	inline constexpr char* black("\033[30m");
-	inline constexpr char* red("\033[31m");
-	inline constexpr char* green("\033[32m");
-	inline constexpr char* yellow("\033[33m");
-	inline constexpr char* blue("\033[34m");
-	inline constexpr char* magenta("\033[35m");
-	inline constexpr char* cyan("\033[36m");
-	inline constexpr char* white("\033[37m");
-	inline constexpr char* br_black("\033[90m");
-	inline constexpr char* br_red("\033[91m");
-	inline constexpr char* br_green("\033[92m");
-	inline constexpr char* br_yellow("\033[93m");
-	inline constexpr char* br_blue("\033[94m");
-	inline constexpr char* br_magenta("\033[95m");
-	inline constexpr char* br_cyan("\033[96m");
-	inline constexpr char* br_white("\033[97m");
+	inline const char* black("\033[30m");
+	inline const char* red("\033[31m");
+	inline const char* green("\033[32m");
+	inline const char* yellow("\033[33m");
+	inline const char* blue("\033[34m");
+	inline const char* magenta("\033[35m");
+	inline const char* cyan("\033[36m");
+	inline const char* white("\033[37m");
+	inline const char* br_black("\033[90m");
+	inline const char* br_red("\033[91m");
+	inline const char* br_green("\033[92m");
+	inline const char* br_yellow("\033[93m");
+	inline const char* br_blue("\033[94m");
+	inline const char* br_magenta("\033[95m");
+	inline const char* br_cyan("\033[96m");
+	inline const char* br_white("\033[97m");
 }
 void consoleCol(const char* color);
 #endif
