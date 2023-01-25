@@ -7,14 +7,23 @@ set(SOURCES main.cpp BigInteger/big_integer.cpp)
 #set(HEADERS SecondFunk/SecondaryFunction.h BigInteger/big_integer.h)
 #set(SOURCES main.cpp SecondFunk/SecondaryFunction.cpp BigInteger/big_integer.cpp)
 
+
+
+set(MYLIB_PATH ${PROJECT_SOURCE_DIR}/SecondFunk)
+# добавляет путь для подключения #include
+#include_directories(${MYLIB_PATH})
+
+add_library(SecFun_lib SHARED IMPORTED)
+#set_property(TARGET SecFun_lib PROPERTY IMPORTED_LOCATION ${MYLIB_PATH}/SecFun_lib.dll)
+set_property(TARGET SecFun_lib PROPERTY IMPORTED_IMPLIB ${MYLIB_PATH}/SecFun_lib.lib)
+
+
+
 add_executable(${OUTPUT_NAME} ${HEADERS} ${SOURCES})
 
-#target_link_libraries(${OUTPUT_NAME} SecondFunk/SecFun_lib.dll)
 
-# ! Осторожно - непереносимый код !
-# Добавляем к цели путь поиска заголовков /SecondFunk
-# Лучше использовать find_package для получения пути к заголовкам.
-#target_include_directories(${OUTPUT_NAME} /SecondFunk)
+target_link_libraries(${OUTPUT_NAME} PRIVATE SecFun_lib)
+
 
 
 
