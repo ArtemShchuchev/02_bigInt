@@ -51,5 +51,8 @@ int main(int argc, char** argv)
 		consoleCol(col::cancel);
 	}
 
+	std::cout << "\n";
+	system("pause"); // Команда задержки экрана
+
 	return 0;
 }
