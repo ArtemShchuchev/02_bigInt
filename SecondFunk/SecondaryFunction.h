@@ -4,6 +4,8 @@
 
 #ifdef _WIN32
 #include <Windows.h>
+#include <io.h>
+#include <fcntl.h>
 /*
 	00 - черный
 	01 - синий
@@ -96,6 +98,4 @@ void consoleCol(const char* color);
 #endif
 
 
-size_t utf8_strlen(std::string_view str);		// ох уж эти кодировки Русского и могучего!
-
-void printHeader(std::string_view str);		// заголовок
+void printHeader(std::wstring_view str);		// заголовок (std::string_view - std17)

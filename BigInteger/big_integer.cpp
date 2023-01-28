@@ -1,31 +1,31 @@
-#include "big_integer.h"
+﻿#include "big_integer.h"
 
 
-void big_integer::testNumber(std::string& str)
+void big_integer::testNumber(std::wstring& str)
 {
 	if (str.empty()) return; // строка пустая
 
 	bool numIsNegative(false);
-	if (str[0] == '-')	// проверяю наличие '-' отрицательного числа
+	if (str[0] == L'-')	// проверяю наличие '-' отрицательного числа
 	{
 		str = str.substr(1);
 		numIsNegative = true;
 	}
-	if (str.find_first_not_of("0123456789") != std::string::npos)
+	if (str.find_first_not_of(L"0123456789") != std::wstring::npos)
 		throw std::runtime_error("В конструктор big_integer, переданы не числовые литералы");
 	// убираю не значащие нули
 	auto pos = str.find_first_not_of('0');
-	if (pos == std::string::npos)
+	if (pos == std::wstring::npos)
 	{
-		str = "0";
+		str = L"0";
 		return;
 	}
 	str = str.substr(pos);
 	// если число отрицательное возвращаю '-'
-	if (numIsNegative) str.insert(0, "-", 1);
+	if (numIsNegative) str.insert(0, L"-", 1);
 }
 
-void big_integer::strToVect(std::string_view str)
+void big_integer::strToVect(std::wstring_view str)
 {
 	number.clear();
 	if (str.empty())
@@ -48,14 +48,14 @@ void big_integer::strToVect(std::string_view str)
 	if (numIsNegative) number.front() *= -1;
 }
 
-big_integer::big_integer(std::string& _str)
+big_integer::big_integer(std::wstring& _str)
 {
 	auto str(std::move(_str));
 	testNumber(str);
 	strToVect(str);
 }
 
-big_integer::big_integer(std::string&& str)
+big_integer::big_integer(std::wstring&& str)
 {
 	testNumber(str);
 	strToVect(str);
@@ -243,7 +243,7 @@ big_integer& big_integer::operator*=(big_integer const& right)
 	}
 
 	int count(0);
-	big_integer muxDig("0"); // содержит левое х правое
+	big_integer muxDig(L"0"); // содержит левое х правое
 
 	// правое умножаю на левое
 	for (auto r_it = rhs.number.crbegin(); r_it < rhs.number.crend(); ++r_it)
@@ -264,7 +264,7 @@ big_integer& big_integer::operator*=(big_integer const& right)
 		if (whole) invbuf.push_back(whole);
 		
 		// содержит левое число перемноженное на 1 разряд правого
-		big_integer buf(""); 
+		big_integer buf(L""); 
 		buf.number.clear();
 		// заполняю буфер задом на перед
 		buf.number.assign(invbuf.crbegin(), invbuf.crend());
@@ -315,7 +315,7 @@ big_integer& big_integer::operator/=(big_integer const& _denom)
 		return *this = numer;
 	}
 
-	big_integer remain("");		// остаток от деления
+	big_integer remain(L"");		// остаток от деления
 	remain.number.clear();
 
 	//const big_integer one("1");	// цифра "1"
@@ -329,7 +329,7 @@ big_integer& big_integer::operator/=(big_integer const& _denom)
 	}
 	if (remain < denom) remain.number.push_back(it++);
 
-	std::cout << "remain: " << remain.getNum() << "\n";
+	std::wcout << L"remain: " << remain.getNum() << "\n";
 
 
 
@@ -343,7 +343,7 @@ big_integer& big_integer::operator/=(big_integer const& _denom)
 	}
 	*/
 
-	if (*this != big_integer("0")) this->number.front() *= sign;// вернул знак
+	if (*this != big_integer(L"0")) this->number.front() *= sign;// вернул знак
 	return *this;				// готово!
 }
 
@@ -404,10 +404,10 @@ bool big_integer::operator>=(const big_integer& rhs)
 	return !(*this < rhs);
 }
 
-std::string big_integer::getNum()
+std::wstring big_integer::getNum()
 {
-	std::string str{""};
-	for (const auto& elem : number) str += std::to_string(elem);
+	std::wstring str{L""};
+	for (const auto& elem : number) str += std::to_wstring(elem);
 
 	return str;
 }
@@ -417,7 +417,7 @@ size_t big_integer::getLen()
 	return number.size();
 }
 
-std::ostream& operator<<(std::ostream& out, big_integer b_num)
+std::wostream& operator<<(std::wostream& out, big_integer b_num)
 {
 	out << b_num.getNum();
 	//for (const auto& elem : b_num.number) out << elem;
