@@ -46,8 +46,8 @@ int main(int argc, char** argv)
 	catch (const std::exception& err)
 	{
 		consoleCol(col::br_red);
-		std::wcout << L"\nОшибка типа: " << typeid(err).name() << "\n";
-		std::wcout << err.what() << "\n";
+		std::cout << "\nОшибка типа: " << typeid(err).name() << "\n";
+		std::cout << err.what() << "\n";
 		consoleCol(col::cancel);
 	}
 

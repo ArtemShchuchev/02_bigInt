@@ -40,7 +40,9 @@ bld/
 main.
 # добавил мой файл
 StartGit.bat
-*.exe
+exeProg/*
+!exeProg/*.dll
+!exeProg/*.so
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/

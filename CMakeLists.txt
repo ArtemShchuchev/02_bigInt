@@ -4,18 +4,24 @@ project(02_bigInt VERSION 1.0 LANGUAGES CXX)
 set(OUTPUT_NAME bigInt)
 set(HEADERS BigInteger/big_integer.h)
 set(SOURCES main.cpp BigInteger/big_integer.cpp)
-#set(HEADERS SecondFunk/SecondaryFunction.h BigInteger/big_integer.h)
-#set(SOURCES main.cpp SecondFunk/SecondaryFunction.cpp BigInteger/big_integer.cpp)
 
-
-
-set(MYLIB_PATH ${PROJECT_SOURCE_DIR}/SecondFunk)
-# добавляет путь для подключения #include
-#include_directories(${MYLIB_PATH})
 
 add_library(SecFun_lib SHARED IMPORTED)
-#set_property(TARGET SecFun_lib PROPERTY IMPORTED_LOCATION ${MYLIB_PATH}/SecFun_lib.dll)
-set_property(TARGET SecFun_lib PROPERTY IMPORTED_IMPLIB ${MYLIB_PATH}/SecFun_lib.lib)
+
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")    # Для Windows
+set(MYLIB_PATH ${PROJECT_SOURCE_DIR}/SecondFunk)
+SET_PROPERTY(TARGET SecFun_lib PROPERTY IMPORTED_IMPLIB ${MYLIB_PATH}/SecFun_lib.lib)
+
+elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")  # Для Linux
+set(MYLIB_PATH ${PROJECT_SOURCE_DIR}/exeProg)
+SET_PROPERTY(TARGET SecFun_lib PROPERTY IMPORTED_LOCATION ${MYLIB_PATH}/libSecFun_lib.so)
+
+else()
+message(FATAL_ERROR "Unknow OS")
+endif()
+
+# добавляет путь для подключения #include
+#include_directories(${MYLIB_PATH})
 
 set(OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/exeProg)
 SET( CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG "${OUTPUT_DIRECTORY}")
@@ -27,10 +33,7 @@ SET( CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE "${OUTPUT_DIRECTORY}")
 
 add_executable(${OUTPUT_NAME} ${HEADERS} ${SOURCES})
 
-
 target_link_libraries(${OUTPUT_NAME} PRIVATE SecFun_lib)
-
-
 
 
 # if (Visual Studio)
@@ -44,8 +47,6 @@ add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
 else()
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
 endif()
-
-
 
 
 ### add_subdirectory(../Catch2 Catch2-build)

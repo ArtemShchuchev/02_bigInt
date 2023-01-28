@@ -16,7 +16,7 @@ private:
 public:
 	// конструктор принимает lvalue (очищает str, теперь это число типа big_integer)
 	big_integer(std::wstring& str);
-	big_integer(std::wstring&& str);						// конструктор принимает rvalue
+	big_integer(std::wstring&& str);					// конструктор принимает rvalue
 	big_integer(big_integer const & other);				// конструктор копирования
 	big_integer(big_integer&& other) noexcept;			// конструктор перемещения
 
