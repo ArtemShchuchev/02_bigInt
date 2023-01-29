@@ -2,53 +2,7 @@
 
 #include <iostream>
 
-#ifdef _WIN32
-#include <Windows.h>
-#include <io.h>
-#include <fcntl.h>
-/*
-	00 - черный
-	01 - синий
-	02 - зеленый
-	03 - голубой
-	04 - красный
-	05 - фиолетовый
-	06 - желтый
-	07 - белый
-	----
-	08 - серый
-	09 - ярк. синий
-	10 - ярк. зеленый
-	11 - ярк. голубой
-	12 - ярк. красный
-	13 - ярк. фиолетовый
-	14 - ярк. желтый
-	15 - ярк. белый
-*/
-namespace col
-{
-	inline constexpr WORD cancel(7);
-
-	inline constexpr WORD black(0);
-	inline constexpr WORD blue(1);
-	inline constexpr WORD green(2);
-	inline constexpr WORD cyan(3);
-	inline constexpr WORD red(4);
-	inline constexpr WORD magenta(5);
-	inline constexpr WORD yellow(6);
-	inline constexpr WORD white(7);
-	inline constexpr WORD br_black(8);
-	inline constexpr WORD br_blue(9);
-	inline constexpr WORD br_green(10);
-	inline constexpr WORD br_cyan(11);
-	inline constexpr WORD br_red(12);
-	inline constexpr WORD br_magenta(13);
-	inline constexpr WORD br_yellow(14);
-	inline constexpr WORD br_white(15);
-}
-void consoleCol(WORD color);
-
-#else
+#if __GNUC__ >= 4	// Linux
 /*
 Name            FG  BG
 Black           30  40
@@ -95,7 +49,61 @@ namespace col
 	inline const char* br_white("\033[97m");
 }
 void consoleCol(const char* color);
+
+#elif _WIN32		// Windows
+#include <Windows.h>
+#include <io.h>
+#include <fcntl.h>
+
+const int errorsetmodeout = _setmode(_fileno(stdout), _O_U16TEXT);
+const int errorsetmodeinp = _setmode(_fileno(stdin), _O_U16TEXT);
+const int errorsetmodeerr = _setmode(_fileno(stderr), _O_U16TEXT);
+
+/*
+	00 - черный
+	01 - синий
+	02 - зеленый
+	03 - голубой
+	04 - красный
+	05 - фиолетовый
+	06 - желтый
+	07 - белый
+	----
+	08 - серый
+	09 - ярк. синий
+	10 - ярк. зеленый
+	11 - ярк. голубой
+	12 - ярк. красный
+	13 - ярк. фиолетовый
+	14 - ярк. желтый
+	15 - ярк. белый
+*/
+namespace col
+{
+	inline constexpr WORD cancel(7);
+
+	inline constexpr WORD black(0);
+	inline constexpr WORD blue(1);
+	inline constexpr WORD green(2);
+	inline constexpr WORD cyan(3);
+	inline constexpr WORD red(4);
+	inline constexpr WORD magenta(5);
+	inline constexpr WORD yellow(6);
+	inline constexpr WORD white(7);
+	inline constexpr WORD br_black(8);
+	inline constexpr WORD br_blue(9);
+	inline constexpr WORD br_green(10);
+	inline constexpr WORD br_cyan(11);
+	inline constexpr WORD br_red(12);
+	inline constexpr WORD br_magenta(13);
+	inline constexpr WORD br_yellow(14);
+	inline constexpr WORD br_white(15);
+}
+void consoleCol(WORD color);
+
+#else
+#error "-= Unknow OS =-"
 #endif
 
 
-void printHeader(std::wstring_view str);		// заголовок (std::string_view - std17)
+void printHeader(std::wstring_view str);	// заголовок (std::string_view - std17)

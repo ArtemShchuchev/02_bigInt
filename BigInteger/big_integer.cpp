@@ -1,6 +1,5 @@
 ﻿#include "big_integer.h"
 
-
 void big_integer::testNumber(std::wstring& str)
 {
 	if (str.empty()) return; // строка пустая
@@ -12,12 +11,12 @@ void big_integer::testNumber(std::wstring& str)
 		numIsNegative = true;
 	}
 	if (str.find_first_not_of(L"0123456789") != std::string::npos)
-		throw std::runtime_error("В конструктор big_integer, переданы не числовые литералы");
+		throw my_exception(L"В конструктор big_integer, переданы не числовые литералы");
 	// убираю не значащие нули
-	auto pos = str.find_first_not_of(L'0');
+	auto pos = str.find_first_not_of('0');
 	if (pos == std::string::npos)
 	{
-		str = L"0";
+		str = '0';
 		return;
 	}
 	str = str.substr(pos);
@@ -35,7 +34,7 @@ void big_integer::strToVect(std::wstring_view str)
 	}
 
 	bool numIsNegative(false);
-	if (str[0] == L'-')	// проверяю наличие '-' отрицательного числа
+	if (str[0] == '-')	// проверяю наличие '-' отрицательного числа
 	{
 		str = str.substr(1);
 		numIsNegative = true;

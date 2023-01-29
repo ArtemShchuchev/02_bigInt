@@ -43,11 +43,18 @@ int main(int argc, char** argv)
 			<< std::setw(result.getLen()) << result << "\n";
 		consoleCol(col::cancel);
 	}
+	catch (const my_exception& err)
+	{
+		consoleCol(col::br_red);
+		std::wcout << L"\nОшибка типа: " << typeid(err).name() << "\n";
+		std::wcout << err.getErr() << "\n";
+		consoleCol(col::cancel);
+	}
 	catch (const std::exception& err)
 	{
 		consoleCol(col::br_red);
-		std::cout << "\nОшибка типа: " << typeid(err).name() << "\n";
-		std::cout << err.what() << "\n";
+		std::wcout << L"\nОшибка типа: " << typeid(err).name() << "\n";
+		std::wcout << err.what() << "\n";	// тут сообщения только на латинице
 		consoleCol(col::cancel);
 	}
 
