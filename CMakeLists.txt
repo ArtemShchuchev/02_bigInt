@@ -19,6 +19,13 @@ SET( CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE "${OUTPUT_DIRECTORY}")
 SET( CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG "${OUTPUT_DIRECTORY}")
 SET( CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE "${OUTPUT_DIRECTORY}")
 
+add_custom_command(
+        TARGET ${OUTPUT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+                ${CMAKE_SOURCE_DIR}/SecFun_lib.dll
+                ${CMAKE_CURRENT_BINARY_DIR}/SecFun_lib.dll)
+
+
 elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")  # Для Linux
 set(MYLIB_PATH ${PROJECT_SOURCE_DIR}/SecondFunk)
 SET_PROPERTY(TARGET SecFun_lib PROPERTY IMPORTED_LOCATION ${MYLIB_PATH}/libSecFun_lib.so)
@@ -31,6 +38,13 @@ endif()
 #include_directories(${MYLIB_PATH})
 
 add_executable(${OUTPUT_NAME} ${HEADERS} ${SOURCES})
+
+#add_custom_command(
+#        TARGET ${OUTPUT_NAME} POST_BUILD    # PRE_BUILD | PRE_LINK | POST_BUILD
+#        COMMAND ${CMAKE_COMMAND} -E copy
+#                ${MYLIB_PATH}/SecFun_lib.dll
+#                ${CMAKE_CURRENT_BINARY_DIR}/SecFun_lib.dll
+#                COMMENT "Copying dll file to work folder")
 
 target_link_libraries(${OUTPUT_NAME} PRIVATE SecFun_lib)
 
