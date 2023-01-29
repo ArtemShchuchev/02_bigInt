@@ -9,7 +9,7 @@
 	#define IMPORT		__attribute__((visibility("hidden")))
 #else
 	#define DYNAMIC_API
-#endif COMPILE_LIBRARY
+#endif
 
 using COLOR = const char*;
 /*
@@ -75,7 +75,7 @@ const int errorsetmodeerr = _setmode(_fileno(stderr), _O_U16TEXT);
 	#endif SecFun_lib_EXPORTS
 #else
 	#define DYNAMIC_API
-#endif COMPILE_LIBRARY
+#endif
 
 using COLOR = WORD;
 /*
