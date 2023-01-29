@@ -1,8 +1,17 @@
 #pragma once
 
 #include <iostream>
+//#define COMPILE_LIBRARY
 
 #if __GNUC__ >= 4	// Linux
+#ifdef COMPILE_LIBRARY
+	#define DYNAMIC_API	__attribute__((visibility("default")))
+	#define IMPORT		__attribute__((visibility("hidden")))
+#else
+	#define DYNAMIC_API
+#endif COMPILE_LIBRARY
+
+using COLOR = const char*;
 /*
 Name            FG  BG
 Black           30  40
@@ -29,26 +38,25 @@ Bright White    97  107
 */
 namespace col
 {
-	inline const char* cancel("\033[0m");
+	DYNAMIC_API inline COLOR cancel("\033[0m");
 
-	inline const char* black("\033[30m");
-	inline const char* red("\033[31m");
-	inline const char* green("\033[32m");
-	inline const char* yellow("\033[33m");
-	inline const char* blue("\033[34m");
-	inline const char* magenta("\033[35m");
-	inline const char* cyan("\033[36m");
-	inline const char* white("\033[37m");
-	inline const char* br_black("\033[90m");
-	inline const char* br_red("\033[91m");
-	inline const char* br_green("\033[92m");
-	inline const char* br_yellow("\033[93m");
-	inline const char* br_blue("\033[94m");
-	inline const char* br_magenta("\033[95m");
-	inline const char* br_cyan("\033[96m");
-	inline const char* br_white("\033[97m");
+	DYNAMIC_API inline COLOR black("\033[30m");
+	DYNAMIC_API inline COLOR red("\033[31m");
+	DYNAMIC_API inline COLOR green("\033[32m");
+	DYNAMIC_API inline COLOR yellow("\033[33m");
+	DYNAMIC_API inline COLOR blue("\033[34m");
+	DYNAMIC_API inline COLOR magenta("\033[35m");
+	DYNAMIC_API inline COLOR cyan("\033[36m");
+	DYNAMIC_API inline COLOR white("\033[37m");
+	DYNAMIC_API inline COLOR br_black("\033[90m");
+	DYNAMIC_API inline COLOR br_red("\033[91m");
+	DYNAMIC_API inline COLOR br_green("\033[92m");
+	DYNAMIC_API inline COLOR br_yellow("\033[93m");
+	DYNAMIC_API inline COLOR br_blue("\033[94m");
+	DYNAMIC_API inline COLOR br_magenta("\033[95m");
+	DYNAMIC_API inline COLOR br_cyan("\033[96m");
+	DYNAMIC_API inline COLOR br_white("\033[97m");
 }
-void consoleCol(const char* color);
 
 #elif _WIN32		// Windows
 #include <Windows.h>
@@ -59,6 +67,17 @@ const int errorsetmodeout = _setmode(_fileno(stdout), _O_U16TEXT);
 const int errorsetmodeinp = _setmode(_fileno(stdin), _O_U16TEXT);
 const int errorsetmodeerr = _setmode(_fileno(stderr), _O_U16TEXT);
 
+#ifdef COMPILE_LIBRARY
+	#ifdef SecFun_lib_EXPORTS
+		#define DYNAMIC_API __declspec(dllexport)
+	#else
+		#define DYNAMIC_API __declspec(dllimport)
+	#endif SecFun_lib_EXPORTS
+#else
+	#define DYNAMIC_API
+#endif COMPILE_LIBRARY
+
+using COLOR = WORD;
 /*
 	00 - черный
 	01 - синий
@@ -80,30 +99,30 @@ const int errorsetmodeerr = _setmode(_fileno(stderr), _O_U16TEXT);
 */
 namespace col
 {
-	inline constexpr WORD cancel(7);
+	DYNAMIC_API inline constexpr COLOR cancel(7);
 
-	inline constexpr WORD black(0);
-	inline constexpr WORD blue(1);
-	inline constexpr WORD green(2);
-	inline constexpr WORD cyan(3);
-	inline constexpr WORD red(4);
-	inline constexpr WORD magenta(5);
-	inline constexpr WORD yellow(6);
-	inline constexpr WORD white(7);
-	inline constexpr WORD br_black(8);
-	inline constexpr WORD br_blue(9);
-	inline constexpr WORD br_green(10);
-	inline constexpr WORD br_cyan(11);
-	inline constexpr WORD br_red(12);
-	inline constexpr WORD br_magenta(13);
-	inline constexpr WORD br_yellow(14);
-	inline constexpr WORD br_white(15);
+	DYNAMIC_API inline constexpr COLOR black(0);
+	DYNAMIC_API inline constexpr COLOR blue(1);
+	DYNAMIC_API inline constexpr COLOR green(2);
+	DYNAMIC_API inline constexpr COLOR cyan(3);
+	DYNAMIC_API inline constexpr COLOR red(4);
+	DYNAMIC_API inline constexpr COLOR magenta(5);
+	DYNAMIC_API inline constexpr COLOR yellow(6);
+	DYNAMIC_API inline constexpr COLOR white(7);
+	DYNAMIC_API inline constexpr COLOR br_black(8);
+	DYNAMIC_API inline constexpr COLOR br_blue(9);
+	DYNAMIC_API inline constexpr COLOR br_green(10);
+	DYNAMIC_API inline constexpr COLOR br_cyan(11);
+	DYNAMIC_API inline constexpr COLOR br_red(12);
+	DYNAMIC_API inline constexpr COLOR br_magenta(13);
+	DYNAMIC_API inline constexpr COLOR br_yellow(14);
+	DYNAMIC_API inline constexpr COLOR br_white(15);
 }
-void consoleCol(WORD color);
 
 #else
 #error "-= Unknow OS =-"
 #endif
 
 
-void printHeader(std::wstring_view str);	// заголовок (std::string_view - std17)
+DYNAMIC_API void consoleCol(COLOR color);
+DYNAMIC_API void printHeader(std::wstring_view str);	// заголовок (std::string_view - std17)
