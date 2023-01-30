@@ -4,52 +4,33 @@ project(02_bigInt VERSION 1.0 LANGUAGES CXX)
 set(OUTPUT_NAME bigInt)
 set(HEADERS BigInteger/big_integer.h)
 set(SOURCES main.cpp BigInteger/big_integer.cpp)
-
-
-add_library(SecFun_lib SHARED IMPORTED)
-
-if(CMAKE_SYSTEM_NAME STREQUAL "Windows")    # Для Windows
 set(MYLIB_PATH ${PROJECT_SOURCE_DIR}/SecondFunk)
-SET_PROPERTY(TARGET SecFun_lib PROPERTY IMPORTED_IMPLIB ${MYLIB_PATH}/SecFun_lib.lib)
-set(OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/exeProg)
-SET( CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG "${OUTPUT_DIRECTORY}")
-SET( CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE "${OUTPUT_DIRECTORY}")
-SET( CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG "${OUTPUT_DIRECTORY}")
-SET( CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE "${OUTPUT_DIRECTORY}")
-SET( CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG "${OUTPUT_DIRECTORY}")
-SET( CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE "${OUTPUT_DIRECTORY}")
-
-add_custom_command(
-        TARGET ${OUTPUT_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy
-                ${CMAKE_SOURCE_DIR}/SecFun_lib.dll
-                ${CMAKE_CURRENT_BINARY_DIR}/SecFun_lib.dll)
-
-
-elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")  # Для Linux
-set(MYLIB_PATH ${PROJECT_SOURCE_DIR}/SecondFunk)
-SET_PROPERTY(TARGET SecFun_lib PROPERTY IMPORTED_LOCATION ${MYLIB_PATH}/libSecFun_lib.so)
-
-else()
-message(FATAL_ERROR "Unknow OS")
-endif()
-
 # добавляет путь для подключения #include
 #include_directories(${MYLIB_PATH})
 
 add_executable(${OUTPUT_NAME} ${HEADERS} ${SOURCES})
-
-#add_custom_command(
-#        TARGET ${OUTPUT_NAME} POST_BUILD    # PRE_BUILD | PRE_LINK | POST_BUILD
-#        COMMAND ${CMAKE_COMMAND} -E copy
-#                ${MYLIB_PATH}/SecFun_lib.dll
-#                ${CMAKE_CURRENT_BINARY_DIR}/SecFun_lib.dll
-#                COMMENT "Copying dll file to work folder")
-
+add_library(SecFun_lib SHARED IMPORTED)
 target_link_libraries(${OUTPUT_NAME} PRIVATE SecFun_lib)
 
 
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")    # Для Windows
+SET_PROPERTY(TARGET SecFun_lib PROPERTY IMPORTED_IMPLIB ${MYLIB_PATH}/SecFun_lib.lib)
+# Копирование DLL файла в папку с .exe
+add_custom_command(
+        TARGET ${OUTPUT_NAME} POST_BUILD    # PRE_BUILD | PRE_LINK | POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                ${MYLIB_PATH}/SecFun_lib.dll
+                $<TARGET_FILE_DIR:${OUTPUT_NAME}>
+                COMMENT "-= Copying dll file to work folder =-")
+elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")  # Для Linux
+SET_PROPERTY(TARGET SecFun_lib PROPERTY IMPORTED_LOCATION ${MYLIB_PATH}/libSecFun_lib.so)
+else()
+message(FATAL_ERROR "Unknow OS")
+endif()
 
+
+
+# Тесты Catch2
 ### add_subdirectory(../Catch2 Catch2-build)
 find_package(Catch2 3 REQUIRED)
 ## 		These tests need their own main
