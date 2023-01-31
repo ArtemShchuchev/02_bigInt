@@ -32,7 +32,7 @@ endif()
 # Тесты Catch2
 # Инструкция enable_testing неявно объявляет опцию BUILD_TESTING,
 #  по умолчанию BUILD_TESTING=OFF.
-# Вызывайте `cmake -DBUILD_TESTING=ON projectdir` из командной строки,
+# Вызывайте `cmake -D BUILD_TESTING=ON projectdir` из командной строки,
 #  если хотите собирать тесты.
 enable_testing()
 if(BUILD_TESTING)
