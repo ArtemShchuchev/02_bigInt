@@ -52,6 +52,6 @@ public:
 	bool operator <= (const big_integer& rhs);
 	bool operator >= (const big_integer& rhs);
 
-	std::wstring getNum();
-	size_t getLen();
+	std::wstring getNum() const;
+	size_t length() const;
 };

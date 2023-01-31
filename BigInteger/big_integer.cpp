@@ -403,7 +403,7 @@ bool big_integer::operator>=(const big_integer& rhs)
 	return !(*this < rhs);
 }
 
-std::wstring big_integer::getNum()
+std::wstring big_integer::getNum() const
 {
 	std::wstring str{L""};
 	for (const auto& elem : number) str += std::to_wstring(elem);
@@ -411,7 +411,7 @@ std::wstring big_integer::getNum()
 	return str;
 }
 
-size_t big_integer::getLen()
+size_t big_integer::length() const
 {
 	return number.size();
 }
