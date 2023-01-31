@@ -1,8 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 project(02_bigInt VERSION 1.0 LANGUAGES CXX)
 
-set(BUILD_TESTS true)   # Тесты Catch2 (вкл - true)
-
 set(OUTPUT_NAME bigInt)
 set(HEADERS BigInteger/big_integer.h)
 set(SOURCES main.cpp BigInteger/big_integer.cpp)
@@ -32,7 +30,12 @@ endif()
 
 
 # Тесты Catch2
-if(BUILD_TESTS)
+# Инструкция enable_testing неявно объявляет опцию BUILD_TESTING,
+#  по умолчанию BUILD_TESTING=OFF.
+# Вызывайте `cmake -DBUILD_TESTING=ON projectdir` из командной строки,
+#  если хотите собирать тесты.
+enable_testing()
+if(BUILD_TESTING)
     add_subdirectory(test)
 endif()
 
