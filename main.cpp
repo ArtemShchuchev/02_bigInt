@@ -78,7 +78,7 @@ size_t maxSizeNum(const T& n1, const T& n2, const T& n3)
 void print(std::wstring_view str, size_t lenStr, big_integer num, size_t lenNum, COLOR color)
 {
 	consoleCol(color);
-	std::wcout << std::left << std::setw(lenStr) << str << " = "
-		<< std::right << std::setw(lenNum) << num << "\n";
+	std::wcout << std::left << std::setw(lenStr + 1) << str << '='
+		<< std::right << std::setw(lenNum + 1) << num << "\n";
 	consoleCol(col::cancel);
 }
