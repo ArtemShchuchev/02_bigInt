@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.2)
 project(02_bigInt VERSION 1.0 LANGUAGES CXX)
 
 set(OUTPUT_NAME bigInt)
@@ -28,12 +28,13 @@ else()
 message(FATAL_ERROR "Unknow OS")
 endif()
 
-
 #[[ Тесты Catch2
     Инструкция enable_testing неявно объявляет опцию
     BUILD_TESTING, по умолчанию BUILD_TESTING=OFF.
     Вызывайте `cmake -D BUILD_TESTING=ON projectdir`
-    из командной строки, если хотите собирать тесты. ]]
+    из командной строки, если хотите собирать тесты.
+    или расскоментируй строку ниже ]]
+#option(BUILD_TESTING "Build the testing tree." ON)
 enable_testing()
 if(BUILD_TESTING)
     add_subdirectory(test)
