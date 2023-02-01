@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.0)
 project(02_bigInt VERSION 1.0 LANGUAGES CXX)
 
 set(OUTPUT_NAME bigInt)
@@ -29,19 +29,19 @@ message(FATAL_ERROR "Unknow OS")
 endif()
 
 
-# Тесты Catch2
-# Инструкция enable_testing неявно объявляет опцию BUILD_TESTING,
-#  по умолчанию BUILD_TESTING=OFF.
-# Вызывайте `cmake -D BUILD_TESTING=ON projectdir` из командной строки,
-#  если хотите собирать тесты.
+#[[ Тесты Catch2
+    Инструкция enable_testing неявно объявляет опцию
+    BUILD_TESTING, по умолчанию BUILD_TESTING=OFF.
+    Вызывайте `cmake -D BUILD_TESTING=ON projectdir`
+    из командной строки, если хотите собирать тесты. ]]
 enable_testing()
 if(BUILD_TESTING)
     add_subdirectory(test)
 endif()
 
-# if (Visual Studio)
-# настраиваю в качестве запускаемого проекта
-# настройка на стандарт с++17
+#[[ if (Visual Studio)
+	настраиваю в качестве запускаемого проекта
+	настройка на стандарт с++17 ]]
 if(MSVC)
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${OUTPUT_NAME})
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++17")
