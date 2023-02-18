@@ -11,7 +11,8 @@ void big_integer::testNumber(std::wstring& str)
 		numIsNegative = true;
 	}
 	if (str.find_first_not_of(L"0123456789") != std::string::npos)
-		throw my_exception(L"В конструктор big_integer, переданы не числовые литералы");
+		//throw my_exception(L"В конструктор big_integer, переданы не числовые литералы");
+		throw std::runtime_error("В конструктор big_integer, переданы не числовые литералы");
 	// убираю не значащие нули
 	auto pos = str.find_first_not_of('0');
 	if (pos == std::string::npos)

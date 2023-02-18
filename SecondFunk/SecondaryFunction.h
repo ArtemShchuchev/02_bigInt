@@ -4,12 +4,15 @@
 //#define COMPILE_LIBRARY
 
 #if __GNUC__ >= 4	// Linux
+#include <codecvt>
+#include <locale>
+
 #ifdef COMPILE_LIBRARY
 	#define DYNAMIC_API	__attribute__((visibility("default")))
 	#define IMPORT		__attribute__((visibility("hidden")))
 #else
 	#define DYNAMIC_API
-#endif
+#endif //COMPILE_LIBRARY
 
 using COLOR = const char*;
 /*
@@ -38,24 +41,24 @@ Bright White    97  107
 */
 namespace col
 {
-	DYNAMIC_API inline COLOR cancel("\033[0m");
+	const COLOR cancel("\033[0m");
 
-	DYNAMIC_API inline COLOR black("\033[30m");
-	DYNAMIC_API inline COLOR red("\033[31m");
-	DYNAMIC_API inline COLOR green("\033[32m");
-	DYNAMIC_API inline COLOR yellow("\033[33m");
-	DYNAMIC_API inline COLOR blue("\033[34m");
-	DYNAMIC_API inline COLOR magenta("\033[35m");
-	DYNAMIC_API inline COLOR cyan("\033[36m");
-	DYNAMIC_API inline COLOR white("\033[37m");
-	DYNAMIC_API inline COLOR br_black("\033[90m");
-	DYNAMIC_API inline COLOR br_red("\033[91m");
-	DYNAMIC_API inline COLOR br_green("\033[92m");
-	DYNAMIC_API inline COLOR br_yellow("\033[93m");
-	DYNAMIC_API inline COLOR br_blue("\033[94m");
-	DYNAMIC_API inline COLOR br_magenta("\033[95m");
-	DYNAMIC_API inline COLOR br_cyan("\033[96m");
-	DYNAMIC_API inline COLOR br_white("\033[97m");
+	const COLOR black("\033[30m");
+	const COLOR red("\033[31m");
+	const COLOR green("\033[32m");
+	const COLOR yellow("\033[33m");
+	const COLOR blue("\033[34m");
+	const COLOR magenta("\033[35m");
+	const COLOR cyan("\033[36m");
+	const COLOR white("\033[37m");
+	const COLOR br_black("\033[90m");
+	const COLOR br_red("\033[91m");
+	const COLOR br_green("\033[92m");
+	const COLOR br_yellow("\033[93m");
+	const COLOR br_blue("\033[94m");
+	const COLOR br_magenta("\033[95m");
+	const COLOR br_cyan("\033[96m");
+	const COLOR br_white("\033[97m");
 }
 
 #elif _WIN32		// Windows
@@ -63,19 +66,19 @@ namespace col
 #include <io.h>
 #include <fcntl.h>
 
-const int errorsetmodeout = _setmode(_fileno(stdout), _O_U16TEXT);
-const int errorsetmodeinp = _setmode(_fileno(stdin), _O_U16TEXT);
-const int errorsetmodeerr = _setmode(_fileno(stderr), _O_U16TEXT);
+extern const int errorsetmodeout;
+extern const int errorsetmodeinp;
+extern const int errorsetmodeerr;
 
 #ifdef COMPILE_LIBRARY
 	#ifdef SecFun_lib_EXPORTS
 		#define DYNAMIC_API __declspec(dllexport)
 	#else
 		#define DYNAMIC_API __declspec(dllimport)
-	#endif SecFun_lib_EXPORTS
+	#endif //SecFun_lib_EXPORTS
 #else
 	#define DYNAMIC_API
-#endif
+#endif //COMPILE_LIBRARY
 
 using COLOR = WORD;
 /*
@@ -99,30 +102,35 @@ using COLOR = WORD;
 */
 namespace col
 {
-	DYNAMIC_API inline constexpr COLOR cancel(7);
+	const COLOR cancel(7);
 
-	DYNAMIC_API inline constexpr COLOR black(0);
-	DYNAMIC_API inline constexpr COLOR blue(1);
-	DYNAMIC_API inline constexpr COLOR green(2);
-	DYNAMIC_API inline constexpr COLOR cyan(3);
-	DYNAMIC_API inline constexpr COLOR red(4);
-	DYNAMIC_API inline constexpr COLOR magenta(5);
-	DYNAMIC_API inline constexpr COLOR yellow(6);
-	DYNAMIC_API inline constexpr COLOR white(7);
-	DYNAMIC_API inline constexpr COLOR br_black(8);
-	DYNAMIC_API inline constexpr COLOR br_blue(9);
-	DYNAMIC_API inline constexpr COLOR br_green(10);
-	DYNAMIC_API inline constexpr COLOR br_cyan(11);
-	DYNAMIC_API inline constexpr COLOR br_red(12);
-	DYNAMIC_API inline constexpr COLOR br_magenta(13);
-	DYNAMIC_API inline constexpr COLOR br_yellow(14);
-	DYNAMIC_API inline constexpr COLOR br_white(15);
+	const COLOR black(0);
+	const COLOR blue(1);
+	const COLOR green(2);
+	const COLOR cyan(3);
+	const COLOR red(4);
+	const COLOR magenta(5);
+	const COLOR yellow(6);
+	const COLOR white(7);
+	const COLOR br_black(8);
+	const COLOR br_blue(9);
+	const COLOR br_green(10);
+	const COLOR br_cyan(11);
+	const COLOR br_red(12);
+	const COLOR br_magenta(13);
+	const COLOR br_yellow(14);
+	const COLOR br_white(15);
 }
 
 #else
 #error "-= Unknow OS =-"
 #endif
 
-
+// цвет в консоли
 DYNAMIC_API void consoleCol(COLOR color);
-DYNAMIC_API void printHeader(std::wstring_view str);	// заголовок (std::string_view - std17)
+
+// заголовок (std::string_view - std17)
+DYNAMIC_API void printHeader(std::wstring_view str);
+
+// Convert an ANSI string to a wide Unicode String
+DYNAMIC_API std::wstring ansi2unicode(const std::string& str);

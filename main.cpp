@@ -34,7 +34,7 @@ int main(int argc, char** argv)
 	try
 	{
 		auto number1 = big_integer(L"114575");
-		auto number2 = big_integer(L"78524");
+		auto number2 = big_integer(L"785j24");
 		auto result = number1 * number2;
 		auto maxLenNum = maxSizeNum(number1, number2, result);
 
@@ -47,18 +47,11 @@ int main(int argc, char** argv)
 		print(str2, maxLenStr, number2, maxLenNum);
 		print(str3, maxLenStr, result, maxLenNum, col::br_yellow);
 	}
-	catch (const my_exception& err)
-	{
-		consoleCol(col::br_red);
-		std::wcout << L"\nОшибка типа: " << typeid(err).name() << "\n";
-		std::wcout << err.getErr() << "\n";
-		consoleCol(col::cancel);
-	}
 	catch (const std::exception& err)
 	{
 		consoleCol(col::br_red);
 		std::wcout << L"\nОшибка типа: " << typeid(err).name() << "\n";
-		std::wcout << err.what() << "\n";	// тут сообщения только на латинице
+		std::wcout << ansi2unicode(err.what()) << "\n";
 		consoleCol(col::cancel);
 	}
 

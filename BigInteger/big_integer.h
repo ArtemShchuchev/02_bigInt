@@ -5,16 +5,6 @@
 #include <algorithm>	// std::exchange
 #include <iostream>
 
-class my_exception : std::exception	// сообщения об исключениях на русском
-{
-private:
-	std::wstring err;
-public:
-	explicit my_exception(std::wstring_view str) : err(str) {}
-	std::wstring_view getErr() const { return err; }
-};
-
-
 class big_integer
 {
 private:
