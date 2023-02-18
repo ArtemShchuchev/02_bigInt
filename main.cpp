@@ -34,7 +34,7 @@ int main(int argc, char** argv)
 	try
 	{
 		auto number1 = big_integer(L"114575");
-		auto number2 = big_integer(L"785j24");
+		auto number2 = big_integer(L"78524");
 		auto result = number1 * number2;
 		auto maxLenNum = maxSizeNum(number1, number2, result);
 
