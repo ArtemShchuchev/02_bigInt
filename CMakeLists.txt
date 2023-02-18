@@ -30,8 +30,10 @@ add_custom_command(
 		COMMAND_EXPAND_LISTS
         COMMENT "-= Copying dll file to work folder =-")
 elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")  # Для Linux
-SET_PROPERTY(TARGET SecFun_lib PROPERTY IMPORTED_LOCATION_RELEASE ${MYLIB_PATH}/Linux/Release/libSecFun_lib.so)
-SET_PROPERTY(TARGET SecFun_lib PROPERTY IMPORTED_LOCATION_DEBUG ${MYLIB_PATH}/Linux/Debug/libSecFun_lib.so)
+#set(CMAKE_BUILD_TYPE Debug)
+#SET_PROPERTY(TARGET SecFun_lib PROPERTY IMPORTED_LOCATION_RELEASE "${MYLIB_PATH}/Linux/Release/libSecFun_lib.so")
+#SET_PROPERTY(TARGET SecFun_lib PROPERTY IMPORTED_LOCATION_DEBUG "${MYLIB_PATH}/Linux/Debug/libSecFun_lib.so")
+SET_PROPERTY(TARGET SecFun_lib PROPERTY IMPORTED_LOCATION "${MYLIB_PATH}/Linux/Release/libSecFun_lib.so")
 else()
 message(FATAL_ERROR "Unknow OS")
 endif()
