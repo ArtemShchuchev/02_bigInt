@@ -14,16 +14,24 @@ target_link_libraries(${OUTPUT_NAME} PRIVATE SecFun_lib)
 
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")    # Для Windows
-SET_PROPERTY(TARGET SecFun_lib PROPERTY IMPORTED_IMPLIB ${MYLIB_PATH}/SecFun_lib.lib)
+SET_PROPERTY(TARGET SecFun_lib PROPERTY IMPORTED_IMPLIB_RELEASE ${MYLIB_PATH}/Win/Release/SecFun_lib.lib)
+SET_PROPERTY(TARGET SecFun_lib PROPERTY IMPORTED_LOCATION_RELEASE ${MYLIB_PATH}/Win/Release/SecFun_lib.dll)
+SET_PROPERTY(TARGET SecFun_lib PROPERTY IMPORTED_IMPLIB_DEBUG ${MYLIB_PATH}/Win/Debug/SecFun_lib.lib)
+SET_PROPERTY(TARGET SecFun_lib PROPERTY IMPORTED_LOCATION_DEBUG ${MYLIB_PATH}/Win/Debug/SecFun_lib.dll)
+# Двух конфигураций ниже - нет, но без добавления этих строк, сыпет Варнингами
+SET_PROPERTY(TARGET SecFun_lib PROPERTY IMPORTED_IMPLIB_MINSIZEREL " ")
+SET_PROPERTY(TARGET SecFun_lib PROPERTY IMPORTED_IMPLIB_RELWITHDEBINFO " ")
 # Копирование DLL файла в папку с .exe
 add_custom_command(
         TARGET ${OUTPUT_NAME} POST_BUILD    # PRE_BUILD | PRE_LINK | POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
-                ${MYLIB_PATH}/SecFun_lib.dll
-                $<TARGET_FILE_DIR:${OUTPUT_NAME}>
-                COMMENT "-= Copying dll file to work folder =-")
+                $<TARGET_RUNTIME_DLLS:${OUTPUT_NAME}>
+				$<TARGET_FILE_DIR:${OUTPUT_NAME}>
+		COMMAND_EXPAND_LISTS
+        COMMENT "-= Copying dll file to work folder =-")
 elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")  # Для Linux
-SET_PROPERTY(TARGET SecFun_lib PROPERTY IMPORTED_LOCATION ${MYLIB_PATH}/libSecFun_lib.so)
+SET_PROPERTY(TARGET SecFun_lib PROPERTY IMPORTED_LOCATION_RELEASE ${MYLIB_PATH}/Linux/Release/libSecFun_lib.so)
+SET_PROPERTY(TARGET SecFun_lib PROPERTY IMPORTED_LOCATION_DEBUG ${MYLIB_PATH}/Linux/Debug/libSecFun_lib.so)
 else()
 message(FATAL_ERROR "Unknow OS")
 endif()
