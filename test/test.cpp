@@ -1,4 +1,4 @@
-#include <catch2/catch_test_macros.hpp>
+﻿#include <catch2/catch_test_macros.hpp>
 #include <catch2/catch_session.hpp>
 
 #include "../BigInteger/big_integer.h"
@@ -27,22 +27,22 @@ TEST_CASE("Class Big integer", "[big_integer]")
         {
             number3 = big_integer(L"23b");
         }
-        catch (my_exception){}
+        catch (std::exception){}
         try
         {
             number3 = big_integer(L"c111");
         }
-        catch (my_exception) {}
+        catch (std::exception) {}
         try
         {
             number3 = big_integer(L"111 111");
         }
-        catch (my_exception) {}
+        catch (std::exception) {}
         try
         {
             number3 = big_integer(L"111.111");
         }
-        catch (my_exception) {}
+        catch (std::exception) {}
 
         number3 = big_integer(L"");
         CHECK(number3.getNum() == L"0");
