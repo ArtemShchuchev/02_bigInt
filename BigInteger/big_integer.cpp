@@ -63,7 +63,7 @@ big_integer::big_integer(std::wstring&& str)
 big_integer::big_integer(big_integer const& other) : number(other.number)
 {
 }
-
+#include <algorithm>	// std::exchange
 big_integer::big_integer(big_integer&& other) noexcept
 	: number(std::exchange(other.number, number))
 {
