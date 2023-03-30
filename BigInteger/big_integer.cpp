@@ -65,12 +65,12 @@ big_integer::big_integer(big_integer const& other) : number(other.number)
 }
 /*
 big_integer::big_integer(big_integer&& other) noexcept
-	: number(std::move(other.number))
+	: number(std::exchange(other.number, number))
 {
 }
 */
 big_integer::big_integer(big_integer&& other) noexcept
-	: number(std::exchange(other.number, number))
+	: number(std::move(other.number))
 {
 }
 

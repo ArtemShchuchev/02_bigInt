@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.2)
-project(02_bigInt VERSION 1.0)
+project(02_bigInt VERSION 1.0 LANGUAGES CXX)
 
 set(OUTPUT_NAME bigInt)
 set(HEADERS BigInteger/big_integer.h)
