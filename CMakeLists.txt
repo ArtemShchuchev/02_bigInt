@@ -1,12 +1,6 @@
 cmake_minimum_required(VERSION 3.2)
 project(02_bigInt VERSION 1.0 LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
-target_compile_features(${TARGET_NAME} PRIVATE cxx_std_17)
-target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
-
 set(OUTPUT_NAME bigInt)
 set(HEADERS BigInteger/big_integer.h)
 set(SOURCES main.cpp BigInteger/big_integer.cpp)
